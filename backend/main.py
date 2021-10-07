@@ -1,8 +1,17 @@
-from fastapi import FastAPI
+from model import Todo
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 # App object
 app = FastAPI()
+
+from database import (
+    fetch_one_todo,
+    fetch_all_todos,
+    create_todo,
+    update_todo,
+    remove_todo,
+)
 
 # Permission
 origins = ['https://localhost:3000']
@@ -23,24 +32,37 @@ def read_root():
 @app.get("/api/todo")
 async def get_todo():
     """ Obtain all entries """
-    return 1
+    response = await fetch_all_todos()
+    return response
 
-@app.get("/api/todo{id}")
-async def get_todo_by_id():
+@app.get("/api/todo{title}", response_model=Todo)
+async def get_todo_by_id(title):
     """ Obtain an entry by id """
-    return 1
+    response = await fetch_one_todo(title)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no TODO item with this title {title}")
 
-@app.post("/api/todo{id}")
-async def post_todo(todo):
+@app.post("/api/todo", response_model=Todo)
+async def post_todo(todo: Todo):
     """ Post a new entry """
-    return 1
+    response = await create_todo(todo.dict())
+    if response:
+        return response
+    raise HTTPException(400, "Something went wrong / Bad Request")
 
-@app.put("/api/todo{id}")
-async def put_todo(id, data):
+@app.put("/api/todo{title}", response_model=Todo)
+async def put_todo(title: str, data: str):
     """ update an entry """
-    return 1    
+    response = await update_todo(title, data)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no TODO item with this title {title}")
 
-@app.delete("/api/todo{id}")
-async def delete_todo(id):
+@app.delete("/api/todo{title}")
+async def delete_todo(title):
     """ delete an entry """
-    return 1 
+    response = await remove_todo(title)
+    if response:
+        return "Successfully deleted todo item!"
+    raise HTTPException(404, f"There is no TODO item with this title {title}")
