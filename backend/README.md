@@ -1,17 +1,3 @@
-# FARM - FastAPI Backend
-FastAPI React Mongo Stack (BACKEND)
-
-
-# Dev setup
-```python
-
-pip install pipenv
-pipenv shell
-pipenv install -r requirements.txt
-
-```
-
-# Starting development webserver
-```python
-uvicorn main:app --reload
-```
+# CorsMiddleware
+Specifies the access points that are allowed to interact with the API backend
+e.g. localhost:3000 (i.e. React frontend server would be able to interact with the backend)

@@ -1,12 +1,16 @@
-# FARM
-FastAPI React Mongo Stack
+FARM Stack Project
 
+# Installing Mongodb
+No SQL database
+```
+sudo apt install ./mongodb-org-server_5.0.8_amd64.deb
+sudo apt install ./ongodb-compass_1.31.2_amd64.deb
+sudo systemctl start mongod
+sudo systemctl enable mongod
+```
 
-# Dev setup
-```python
-
+# Creating Python Environemnt
+```
 pip install pipenv
-pipenv shell
-pipenv install -r requirements.txt
-
+pipenv sh
 ```
